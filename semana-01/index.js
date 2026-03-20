@@ -1,7 +1,6 @@
 import Persona from "./Persona.js";
 import os from 'os'
 import fs from 'fs/promises'
-import { error } from "console";
 const path = 'notas.txt';
 const data = 'TExto nuevo';
 
