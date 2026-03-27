@@ -11,14 +11,16 @@ class User {
         const json = JSON.parse(data);
         this.users = json;
     }
-    
+    async saveJSON(){
+        const data = JSON.stringify(this.list, null, 2);
+        await fs.writeFile(this.path, data);
+    }
     async save(user){
         const id = crypto.randomUUID();
         user.id = id;
         this.list.push(user);
-        const data = JSON.stringify(this.list, null, 2);
-        await fs.writeFile(this.path, data);
-        console.log('Usuario Guardado');
+        await this.saveJSON();
+        return id;
     }
 
     async find(){
