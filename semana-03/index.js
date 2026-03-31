@@ -1,28 +1,42 @@
+import express, { json } from 'express';
 import User from "./models/User.js";
+import chalk from "chalk";
 
-console.log('Inicio');
+const PORT = 3000;
+
 const userModel = new User();
 
-const user1 = {
-    name: 'José',
-    email: 'jose@dv.edu.ar'
-}
-
-const user2 = {
-    name: 'Sofia',
-    email: 'sofia@dv.edu.ar'
-}
-
-userModel.save( user1);
-userModel.save( user2);
-
-
-console.log('Fin');
-
-userModel.find().then( users => {
-    console.table(users);
+const app = express();
+app.use( express.json());
+app.get('/', (request, response) => {
+    response.send('<h1> API REST  😊|  </h1>');
 })
 
-/* userModel.findById('40d54f56-a68c-42fc-a652-a7f62772b5e8').then( user => {
-    console.log({user})
-}) */
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await userModel.find();
+        console.log(users);
+        res.json({ status: 'ok', data: users});
+    } catch (error) {
+        res.status(500).json({ status: 'error', data: []});
+        console.error(error);
+    }
+
+})
+
+app.post('/api/users', async (req, res) => {
+    try {
+        const { name, email } = req.body;
+        const id = await userModel.save({ name, email});
+        res.json({ status: 'ok', data: id});
+    } catch (error) {        
+        res.status(500).json({ status: 'error', data: []});
+        console.error(error);
+    }
+
+})
+
+
+app.listen( PORT, () => {
+    console.log( chalk.green(`Servidor Web en el puerto ${PORT}`) );
+})
