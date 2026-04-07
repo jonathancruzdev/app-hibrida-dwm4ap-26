@@ -21,8 +21,35 @@ app.get('/api/users', async (req, res) => {
         res.status(500).json({ status: 'error', data: []});
         console.error(error);
     }
-
 })
+
+
+app.get('/api/users/:id', async (req, res) => {
+    try {
+     
+        const id = req.params.id
+        const user = await userModel.findById(id);
+        if( user){
+            res.json({ status: 'ok', data: user });
+
+        } else {
+            res.status(404).json({ status: 'Not Found', data: user });
+
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'error', data: []});
+        console.error(error);
+    }
+})
+
+app.patch('/api/users/:id', async (req, res) => { 
+const { id } = req.params;     
+const { name , email } = req.body ;
+console.log(id , name , email);
+const actualizar = await userModel.updateById( id , { name , email } )
+if(!actualizar) return res.status(404).json({ status: 'error', data: []});
+res.json(actualizar);
+});
 
 app.post('/api/users', async (req, res) => {
     try {
