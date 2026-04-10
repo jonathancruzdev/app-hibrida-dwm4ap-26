@@ -34,6 +34,12 @@ class User {
         const user = this.list.find( u => u.id === id);
         return user;
     }
+
+    async findByEmail (email){
+        await this.readJSON();
+        const user = this.list.find( u => u.email === email);
+        return user;
+    }
     
     async deleteById( id) { 
         await this.readJSON();

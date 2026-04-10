@@ -18,5 +18,11 @@
     "name": "sofia",
     "email": "sofia@dv.edu.ar",
     "id": "76f47207-b662-4ca7-9b18-69ae3ef3533b"
+  },
+  {
+    "name": "Jose",
+    "email": "jose@dv.edu.ar",
+    "password": "$2b$10$mUH5fWRWjDYHtpdxWv06NOiWfgNFF8ugtg/pmieTcpoFOSGPpSDDC",
+    "id": "c95ec6c8-e4e1-4df8-b7c4-7279665d0539"
   }
 ]
