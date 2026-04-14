@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import chalk from "chalk";
 import mongoose from 'mongoose';
 import { userModel } from './models/userModel.js';
+import { weaponsModel } from './models/weaponModel.js';
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -47,6 +48,16 @@ app.get('/api/users', async (req, res) => {
     }
 })
 
+app.get('/api/weapons', async (req, res) => {
+    try {
+        const weapons = await weaponsModel.find();
+        res.json({ status: 'ok', data: weapons});
+    } catch (error) {
+        res.status(500).json({ status: 'error', data: []});
+        console.error(error);
+    }
+})
+
 
 app.get('/api/users/:id', async (req, res) => {
     try {
@@ -81,6 +92,19 @@ app.post('/api/users', async (req, res) => {
         const hash = await bcrypt.hash( password, 10 );
         const usuario = new userModel({ name, email, password: hash})
         const data = await usuario.save();
+
+        res.json({ status: 'ok', data});
+    } catch (error) {        
+        res.status(500).json({ status: 'error', data: []});
+        console.error(error);
+    }
+})
+
+app.post('/api/weapons', async (req, res) => {
+    try {
+        const { name, color, image, type, description } = req.body;
+        const weapons = new weaponsModel({ name, color, image, type, description})
+        const data = await weapons.save();
 
         res.json({ status: 'ok', data});
     } catch (error) {        
