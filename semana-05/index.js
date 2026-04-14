@@ -2,14 +2,25 @@ import express from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from "./models/User.js";
+
 import chalk from "chalk";
+import mongoose from 'mongoose';
+import { userModel } from './models/userModel.js';
 
 dotenv.config();
 const PORT = process.env.PORT;
 const SECRET_KEY = process.env.SECRET_KEY;
+const URI_DB= process.env.URI_DB;
 
-const userModel = new User();
+// Nos conectamos a la DB
+mongoose.connect(URI_DB)
+const db = mongoose.connection;
+
+db.on('error', () => console.error('No se conector con la DB 😢'));
+db.once('open', () => console.error('Conexión con la DB 👍'));
+
+
+
 
 const app = express();
 app.use( express.json());
@@ -68,8 +79,10 @@ app.post('/api/users', async (req, res) => {
     try {
         const { name, email, password } = req.body;
         const hash = await bcrypt.hash( password, 10 );
-        const id = await userModel.save({ name, email, password:hash });
-        res.json({ status: 'ok', data: id});
+        const usuario = new userModel({ name, email, password: hash})
+        const data = await usuario.save();
+
+        res.json({ status: 'ok', data});
     } catch (error) {        
         res.status(500).json({ status: 'error', data: []});
         console.error(error);
