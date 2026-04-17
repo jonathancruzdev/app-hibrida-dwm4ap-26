@@ -1,0 +1,37 @@
+import express from 'express';
+import dotenv from 'dotenv';
+
+
+import chalk from "chalk";
+
+
+import userRouter from './routes/userRouter.js';
+import weaponsRouter from './routes/weaponsRouter.js';
+
+
+dotenv.config();
+const PORT = process.env.PORT;
+
+
+const app = express();
+app.use( express.json());
+
+app.use(  express.static('public'));
+// Middleware
+app.use(  (req, res, next) => {
+    console.log('Soy el middleware!');
+    next();
+})
+
+app.get('/', (request, response) => {
+    response.send(``);
+})
+
+app.use('/api/users', userRouter);
+app.use('/api/weapons', weaponsRouter);
+
+
+
+app.listen( PORT, () => {
+    console.log( chalk.green(`Servidor Web en el puerto ${PORT}`) );
+})

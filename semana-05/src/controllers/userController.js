@@ -1,43 +1,14 @@
-import express from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import chalk from "chalk";
-import mongoose from 'mongoose';
-import { userModel } from './models/userModel.js';
-import { weaponsModel } from './models/weaponModel.js';
+import { userModel } from "../models/userModel";
 
 dotenv.config();
-const PORT = process.env.PORT;
+
 const SECRET_KEY = process.env.SECRET_KEY;
-const URI_DB= process.env.URI_DB;
 
-// Nos conectamos a la DB
-mongoose.connect(URI_DB)
-const db = mongoose.connection;
-
-db.on('error', () => console.error('No se conector con la DB 😢'));
-db.once('open', () => console.error('Conexión con la DB 👍'));
-
-
-
-
-const app = express();
-app.use( express.json());
-
-app.use(  express.static('public'));
-// Middleware
-app.use(  (req, res, next) => {
-    console.log('Soy el middleware!');
-    next();
-})
-
-app.get('/', (request, response) => {
-    response.send(``);
-})
-
-app.get('/api/users', async (req, res) => {
+export const get = async (req, res) => {
     try {
         const users = await userModel.find();
         console.log(users);
@@ -46,20 +17,9 @@ app.get('/api/users', async (req, res) => {
         res.status(500).json({ status: 'error', data: []});
         console.error(error);
     }
-})
+}
 
-app.get('/api/weapons', async (req, res) => {
-    try {
-        const weapons = await weaponsModel.find();
-        res.json({ status: 'ok', data: weapons});
-    } catch (error) {
-        res.status(500).json({ status: 'error', data: []});
-        console.error(error);
-    }
-})
-
-
-app.get('/api/users/:id', async (req, res) => {
+export const getById = async (req, res) => {
     try {
      
         const id = req.params.id
@@ -75,18 +35,18 @@ app.get('/api/users/:id', async (req, res) => {
         res.status(500).json({ status: 'error', data: []});
         console.error(error);
     }
-})
+}
 
-app.patch('/api/users/:id', async (req, res) => { 
+export const updateById = async (req, res) => { 
 const { id } = req.params;     
 const { name , email } = req.body ;
 console.log(id , name , email);
 const actualizar = await userModel.updateById( id , { name , email } )
 if(!actualizar) return res.status(404).json({ status: 'error', data: []});
 res.json(actualizar);
-});
+}
 
-app.post('/api/users', async (req, res) => {
+export const save = async (req, res) => {
     try {
         const { name, email, password } = req.body;
         const hash = await bcrypt.hash( password, 10 );
@@ -98,22 +58,9 @@ app.post('/api/users', async (req, res) => {
         res.status(500).json({ status: 'error', data: []});
         console.error(error);
     }
-})
+}
 
-app.post('/api/weapons', async (req, res) => {
-    try {
-        const { name, color, image, type, description } = req.body;
-        const weapons = new weaponsModel({ name, color, image, type, description})
-        const data = await weapons.save();
-
-        res.json({ status: 'ok', data});
-    } catch (error) {        
-        res.status(500).json({ status: 'error', data: []});
-        console.error(error);
-    }
-})
-
-app.post('/api/users/auth', async(req, res) => {
+export const auth = async(req, res) => {
     const { email, password } = req.body;
     // Buscamos el email
     const user = await userModel.findByEmail(email);
@@ -132,8 +79,4 @@ app.post('/api/users/auth', async(req, res) => {
     res.json({ status: 'ok', data: token});
 
 
-})
-
-app.listen( PORT, () => {
-    console.log( chalk.green(`Servidor Web en el puerto ${PORT}`) );
-})
+}
