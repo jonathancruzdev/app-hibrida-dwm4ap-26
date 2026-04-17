@@ -7,7 +7,7 @@ import chalk from "chalk";
 
 import userRouter from './routes/userRouter.js';
 import weaponsRouter from './routes/weaponsRouter.js';
-
+import personajesRouter from './routes/personajesRouter.js';
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -29,7 +29,7 @@ app.get('/', (request, response) => {
 
 app.use('/api/users', userRouter);
 app.use('/api/weapons', weaponsRouter);
-
+app.use('/api/personajes', personajesRouter);
 
 
 app.listen( PORT, () => {
