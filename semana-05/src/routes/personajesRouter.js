@@ -1,5 +1,5 @@
 import express from 'express';
-import { personajesModel } from '../models/personajesModel';
+import { personajesModel } from '../models/personajesModel.js';
 
 const router = express.Router();
 
