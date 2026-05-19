@@ -2,9 +2,9 @@ import React from 'react'
 
 const Hero = () => {
   return (
-    <div>
-      
-    </div>
+    <section>
+      <h2>Peliculas destacadas</h2>
+    </section>
   )
 }
 

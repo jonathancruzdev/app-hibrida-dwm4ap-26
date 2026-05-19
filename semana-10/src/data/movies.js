@@ -15,18 +15,18 @@ export const movies = [
     id: 3,
     title: "The Matrix",
     description: "Un hacker descubre la verdad sobre la realidad y su papel en la guerra.",
-    image: "https://via.placeholder.com/300x200?text=Matrix"
+    image: ""
   },
   {
     id: 4,
     title: "The Dark Knight",
     description: "Batman enfrenta al Joker en una batalla por el alma de Gotham.",
-    image: "https://via.placeholder.com/300x200?text=Batman"
+    image: ""
   },
   {
     id: 5,
     title: "Avengers: Endgame",
     description: "Los héroes restantes intentan revertir el chasquido de Thanos.",
-    image: "https://via.placeholder.com/300x200?text=Avengers"
+    image: ""
   }
 ];

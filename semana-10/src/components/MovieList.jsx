@@ -1,9 +1,19 @@
 import React from 'react'
 
-function MovieList() {
+import MovieCard from './MovieCard'
+
+function MovieList({ movies}) {
+
+  console.log(movies)
   return (
-    <div>
-      
+    <div className='movie-grid'>
+      {
+        movies.map( movie => (
+          <MovieCard title={movie.title} image={movie.image} />
+
+        ) )
+      }
+
     </div>
   )
 }
