@@ -7,8 +7,8 @@ import  validarToken  from '../middlewares/auth.js';
 
 const routerAPI = (app) => {
     app.use('/api/users', userRouter);
-    app.use('/api/personajes', validarToken, personajesRouter);
-    app.use('/api/weapons', weaponsRouter);
+    app.use('/api/personajes', personajesRouter);
+    app.use('/api/weapons', validarToken, weaponsRouter);
 }
 
 export default routerAPI;
