@@ -9,3 +9,13 @@ main {
 footer {
   height: 10vh;
 }
+
+nav a {
+  text-decoration: none;
+}
+
+nav .active {
+  background-color:  teal;
+  color: azure;
+  text-decoration: underline;
+}
