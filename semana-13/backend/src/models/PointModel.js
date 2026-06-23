@@ -18,6 +18,11 @@ const pointSchema = new mongoose.Schema({
       type: String,
       default: null
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId, // Referencia a un ObjectId
+      ref: "User",
+      required: true
+    },
     }, { timestamps: true }
 );
 
