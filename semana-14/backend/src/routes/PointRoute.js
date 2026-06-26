@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { upload } from "../middleware/uploadMiddleware.js";
 import {
     getPoints,
     getPointById,
